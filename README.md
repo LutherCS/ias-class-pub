@@ -1,2 +1,1 @@
-# ias-class-pub
-Information Assurance and Security (CS439)
+![Nothing to see here](http://media.giphy.com/media/cEUTDxSwjfnZC/giphy.gif)
