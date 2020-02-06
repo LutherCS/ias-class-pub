@@ -1,2 +1,2 @@
 # ias-class-pub
-Information Assurance and Security (CS439)
+Information Assurance and Security (CS460)
