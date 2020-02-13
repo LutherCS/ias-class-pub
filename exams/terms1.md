@@ -2,8 +2,7 @@
 
 * Alice
 * Bob
-* Charlie / Chip / Chloe
-* Dave / Diane / Drew
+* Trudy
 * Confidentiality
 * Integrity
 * Availability
