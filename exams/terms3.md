@@ -6,7 +6,7 @@
 * RC4
 * Block cipher
 * Horst Feistel
-* Feisterl cipher
+* Feistel cipher
 * DES
 * S-box
 * P-box
