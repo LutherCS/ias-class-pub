@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
 Testing the A5/1 cipher
-Roman Yasinovskyy, 2020
+@author: Roman Yasinovskyy
 """
 
 
@@ -58,16 +58,16 @@ generated_registers = [
         "z": "11010010111010001111001",
     },
     {
-        "x": "0011000001101001011",
-        "y": "0111001100110011011110",
-        "z": "11100110110010101100011",
+        "x": "0110100101101110011",
+        "y": "0011001101111011100110",
+        "z": "11001010110001100000000",
     },
 ]
 
 phrases_encrypted = [
     "0x5c2cb46763deeaddb318",
     "0xc8b591d8c66baf33a5a324cc7665d310bf3b95",
-    "0x6afa6120004d2beba4c3375cf9e7",
+    "0xa9f26f6116b87927b693e31152e7",
 ]
 
 
@@ -154,7 +154,7 @@ def test_encrypt_file():
     if encrypted_file.exists():
         assert (
             sha256(open(f"{filename}.secret", "rb").read()).hexdigest()
-            == "fb5c2208996fb4eca031937a450d759656c913b82fbfbbfacb57affbfb8f1144"
+            == "c6cffc32f7c20ecbbfd633796696359e05abcf09f1c8e96508162dd6f738752d"
         )
 
 
