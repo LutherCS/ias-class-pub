@@ -122,6 +122,7 @@ def test_encrypt_word(plaintext, ciphertext):
     assert knapsack.encrypt(plaintext, gk) == [ciphertext]
 
 
+@pytest.mark.timeout(2)
 def test_decrypt_word():
     """Testing complex case of decryption"""
     with open(pathlib.Path("data", "projects", "knapsack", "knapsack.private"), "r") as f:
