@@ -49,7 +49,7 @@ def parse_dhm_request(msg: str) -> int:
 
 
 def get_key_and_iv(
-    shared_key: int, cipher_name: str, key_size: int
+    shared_key: str, cipher_name: str, key_size: int
 ) -> Tuple[object, bytes, bytes]:
     """Get key and IV from the generated shared secret key
 
