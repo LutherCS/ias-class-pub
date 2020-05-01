@@ -46,6 +46,10 @@ Follow the tutorial on Let's Encrypt and the tool they recommend, `Certbot`, to 
 
 Using Let's Encrypt is optional but highly recommended.
 
+## Deliverables
+
+Push code, the certificate, and a gif of the login process to GitHub. I used peek on Ubuntu to record my gif.
+
 ## References
 
 * [How To Create a Self-Signed SSL Cert for Apache in Ubuntu 18.04 | DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-apache-in-ubuntu-18-04)
