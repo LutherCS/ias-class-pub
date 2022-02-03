@@ -2,36 +2,75 @@
 # encoding: UTF-8
 """
 Testing the Caesar cipher
-Roman Yasinovskyy, 2018
+
+@authors: Roman Yasinovskyy
+@version: 2022.02
 """
 
+
+import importlib
+import pathlib
+import sys
+
 import pytest
-from src.projects.caesar import caesar_cipher as cc
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.caesar import caesar_cipher as cc
 
 
-def test_shift_by_n():
+TIME_LIMIT = 1
+import pytest
+
+cases = [
+    ("hello", 3, 1, "khoor", "KHOOR", "KHOOR"),
+    ("world", 3, 1, "zruog", "ZRUOG", "ZRUOG"),
+    ("zruog", -3, 1, "world", "WORLD", "WORLD"),
+    ("hello world!", 3, 1, "khoor zruog!", "KHOOR ZRUOG!", "KHOORZRUOG"),
+    ("hello world!", 3, 1, "khoor zruog!", "KHOOR ZRUOG!", "KHOORZRUOG"),
+]
+
+
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, shift, direction, shifted, ciphertext, obfuscated", cases
+)
+def test_shift_by_n(plaintext, shift, direction, shifted, ciphertext, obfuscated):
     """Testing shift_by_n() method"""
-    assert cc.shift_by_n("hello", 3, 1) == "khoor"
-    assert cc.shift_by_n("ZRUOG", 3, -1) == "WORLD"
+    assert cc.shift_by_n(plaintext, shift, direction) == shifted
 
 
-def test_encrypt():
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, shift, direction, shifted, ciphertext, obfuscated", cases
+)
+def test_encrypt(plaintext, shift, direction, shifted, ciphertext, obfuscated):
     """Testing encrypt() method"""
-    assert cc.encrypt("hello", 3) == "KHOOR"
-    assert cc.encrypt("hello world!", 3) == "KHOOR ZRUOG!"
+    assert cc.encrypt(plaintext, shift) == ciphertext
 
 
-def test_encrypt_and_obfuscate():
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, shift, direction, shifted, ciphertext, obfuscated", cases
+)
+def test_encrypt_and_obfuscate(
+    plaintext, shift, direction, shifted, ciphertext, obfuscated
+):
     """Testing encrypt() method with obfuscation"""
-    assert cc.encrypt("hello world", 3, True) == "KHOORZRUOG"
-    assert cc.encrypt("hello world!", 3, True) == "KHOORZRUOG"
+    assert cc.encrypt(plaintext, shift, True) == obfuscated
 
 
-def test_decrypt():
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, shift, direction, shifted, ciphertext, obfuscated", cases
+)
+def test_decrypt(plaintext, shift, direction, shifted, ciphertext, obfuscated):
     """Testing decrypt() method"""
-    assert cc.decrypt("ZRUOG", 3) == "world"
-    assert cc.decrypt("KHOOR ZRUOG!", 3) == "hello world!"
+    assert cc.decrypt(ciphertext, shift) == plaintext
 
 
 if __name__ == "__main__":
-    pytest.main(["-v", "test_caesar_cipher.py"])
+    pytest.main(["-v", __file__])

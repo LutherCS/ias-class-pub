@@ -7,7 +7,8 @@ DICT_ENG = set()
 
 def shift_by_n(word: str, shift: int, direction: int) -> str:
     """Shifting all letters in a word by n. Direction specifies encryption (>0) or decryption (<0)"""
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def encrypt(plaintext: str, shift: int, obfuscate=False) -> str:
@@ -31,7 +32,8 @@ def encrypt_file(file_in_name: str, file_out_name: str, shift: int, obfuscate=Fa
 
 def decrypt(cipher: str, shift: int) -> str:
     """Decrypt a string"""
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def decrypt_file(file_in_name: str, file_out_name: str, shift: int):
@@ -45,7 +47,8 @@ def decrypt_file(file_in_name: str, file_out_name: str, shift: int):
 
 def analyze_file(file_in_name: str, file_out_name: str, dictionary: set):
     """Analyze a file that has been obfuscated"""
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def main():
