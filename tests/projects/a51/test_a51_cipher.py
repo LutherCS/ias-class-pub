@@ -36,13 +36,10 @@ def get_cases(category: str, *attribs: str) -> Generator:
 
 
 @pytest.mark.timeout(TIME_LIMIT)
-@pytest.mark.parametrize(
-    "bits, expected",
-    get_cases("test_case_majority", "bits", "expected"),
-)
-def test_majority(bits: tuple[str], expected: str):
+def test_majority():
     """Testing the majority function"""
-    assert a51.majority(*bits) == expected
+    for bits, expected in zip(range(8), "00010111"):
+        assert a51.majority(*tuple(f"{bits:03b}")) == expected
 
 
 @pytest.mark.timeout(TIME_LIMIT)
@@ -96,7 +93,6 @@ def test_encrypt_char(keystream: str, ciphertext: str):
 )
 def test_populate_registers(secret: str, generated_registers: dict[str, str]):
     """Testing generation of the registers"""
-    # pad with right 0 if necessary
     gen_reg_x, gen_reg_y, gen_reg_z = a51.populate_registers(secret)
     assert gen_reg_x == generated_registers["x"]
     assert gen_reg_y == generated_registers["y"]
@@ -115,17 +111,33 @@ def test_encrypt_text(plaintext: str, secret: str, ciphertext: str):
     assert hex(int(a51.encrypt(plaintext, keystream), 2)) == ciphertext
 
 
-def test_encrypt_file():
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, secret, ciphertext",
+    get_cases("test_case_encryption", "plaintext", "secret", "ciphertext"),
+)
+def test_decrypt_text(plaintext: str, secret: str, ciphertext: str):
+    """Testing decryption of a string"""
+    x, y, z = a51.populate_registers(secret)
+    keystream = a51.generate_keystream(plaintext, x, y, z)
+    assert a51.decrypt(ciphertext, keystream) == plaintext
+
+
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "filename, secret, checksum",
+    get_cases("test_case_file_encryption", "filename", "secret", "checksum"),
+)
+def test_encrypt_file(filename: str, secret: str, checksum: str):
     """Testing file encryption"""
-    filename = "roster"
-    a51.encrypt_file(pathlib.Path(DATA_DIR / filename), "martin")
+    a51.encrypt_file(pathlib.Path(DATA_DIR / filename), secret)
     encrypted_file = pathlib.Path(DATA_DIR / filename)
     if encrypted_file.exists():
         assert (
             sha256(
                 open(pathlib.Path(DATA_DIR / f"{filename}.secret"), "rb").read()
             ).hexdigest()
-            == "c6cffc32f7c20ecbbfd633796696359e05abcf09f1c8e96508162dd6f738752d"
+            == checksum
         )
 
 

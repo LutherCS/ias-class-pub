@@ -101,6 +101,17 @@ def encrypt(plaintext: str, keystream: str) -> str:
     ...
 
 
+def decrypt(ciphertext: str, keystream: str) -> str:
+    """Decrypt ciphertext using A5/1
+
+    :param ciphertext: ciphertext to be decrypted
+    :param keystream: keystream
+    :return: plaintext
+    """
+    # TODO: Implement this function
+    ...
+
+
 def encrypt_file(filename: str, secret: str) -> None:
     """Encrypt a file
 
