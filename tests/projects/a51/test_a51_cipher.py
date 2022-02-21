@@ -1,146 +1,115 @@
 #!/usr/bin/python3
 """
 Testing the A5/1 cipher
-@author: Roman Yasinovskyy
+
+@authors: Roman Yasinovskyy
+@version: 2022.2
 """
 
+import importlib
+import pathlib
+import sys
+from typing import Generator
+from hashlib import sha256
 
 import pytest
-from src.projects.a51 import a51_cipher as a51
-from hashlib import sha256
-from pathlib import Path
+import toml
 
-given_registers = [
-    {
-        "x": "1010101010101010101",
-        "y": "1100110011001100110011",
-        "z": "11100001111000011110000",
-    },
-    {
-        "x": "0101010101010101010",
-        "y": "0011001100110011001100",
-        "z": "00011100011100011100011",
-    },
-]
-
-given_registers_stepped = [
-    {
-        "x": "0101010101010101010",
-        "y": "0110011001100110011001",
-        "z": "11110000111100001111000",
-    },
-    {
-        "x": "0010101010101010101",
-        "y": "0001100110011001100110",
-        "z": "00001110001110001110001",
-    },
-]
-
-bits_without_stepping = [0, 1]
-
-keystreams = ["10000011", "11100101"]
-
-ciphers = ["11011010", "10111100"]
-
-phrases_plain = ["Yakety Yak", "Bippity bippity bop", "Luther College"]
-
-secrets = ["octoduck", "security", "infosec"]  # pad with right 0 if necessary
-
-generated_registers = [
-    {
-        "x": "0110111101100011011",
-        "y": "1010001101111011001000",
-        "z": "11101010110001101101011",
-    },
-    {
-        "x": "0111001101100101011",
-        "y": "0001101110101011100100",
-        "z": "11010010111010001111001",
-    },
-    {
-        "x": "0110100101101110011",
-        "y": "0011001101111011100110",
-        "z": "11001010110001100000000",
-    },
-]
-
-phrases_encrypted = [
-    "0x5c2cb46763deeaddb318",
-    "0xc8b591d8c66baf33a5a324cc7665d310bf3b95",
-    "0xa9f26f6116b87927b693e31152e7",
-]
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.a51 import a51_cipher as a51
 
 
-def test_majority():
-    """Testing majority function"""
-    assert a51.majority("0", "0", "0") == "0"
-    assert a51.majority("0", "0", "1") == "0"
-    assert a51.majority("0", "1", "0") == "0"
-    assert a51.majority("0", "1", "1") == "1"
-    assert a51.majority("1", "0", "0") == "0"
-    assert a51.majority("1", "0", "1") == "1"
-    assert a51.majority("1", "1", "0") == "1"
-    assert a51.majority("1", "1", "1") == "1"
+DATA_DIR = pathlib.Path("data/projects/a51/")
+TIME_LIMIT = 2
 
 
+def get_cases(category: str, *attribs: str) -> Generator:
+    """Get test cases from the TOML file"""
+    with open(pathlib.Path(__file__).with_suffix(".toml"), encoding="utf-8") as file:
+        all_cases = toml.load(file)
+        for case in all_cases[category]:
+            yield tuple(case.get(a) for a in attribs)
+
+
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "old_xyz, new_xyz", zip(given_registers, given_registers_stepped)
+    "bits, expected",
+    get_cases("test_case_majority", "bits", "expected"),
 )
-def test_step_x(old_xyz, new_xyz):
-    assert a51.step_x(old_xyz["x"]) == new_xyz["x"]
+def test_majority(bits: tuple[str], expected: str):
+    """Testing the majority function"""
+    assert a51.majority(*bits) == expected
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "old_xyz, new_xyz", zip(given_registers, given_registers_stepped)
+    "registers_given, registers_stepped",
+    get_cases("test_case_basic", "registers_given", "registers_stepped"),
 )
-def test_step_y(old_xyz, new_xyz):
-    assert a51.step_y(old_xyz["y"]) == new_xyz["y"]
+def test_stepping(registers_given: dict[str, str], registers_stepped: dict[str, str]):
+    """Testing the stepping function"""
+    assert a51.step_x(registers_given["x"]) == registers_stepped["x"]
+    assert a51.step_y(registers_given["y"]) == registers_stepped["y"]
+    assert a51.step_z(registers_given["z"]) == registers_stepped["z"]
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "old_xyz, new_xyz", zip(given_registers, given_registers_stepped)
+    "registers_given, generated_bit",
+    get_cases("test_case_basic", "registers_given", "generated_bit"),
 )
-def test_step_z(old_xyz, new_xyz):
-    assert a51.step_z(old_xyz["z"]) == new_xyz["z"]
-
-
-@pytest.mark.parametrize("secret, xyz", zip(secrets, generated_registers))
-def test_populate_registers(secret, xyz):
-    """Testing register population function"""
-    x, y, z = a51.populate_registers(secret)
-    assert x == xyz["x"]
-    assert y == xyz["y"]
-    assert z == xyz["z"]
-
-
-@pytest.mark.parametrize("xyz, bit", zip(given_registers, bits_without_stepping))
-def test_generate_bit(xyz, bit):
+def test_bit_generation(registers_given: dict[str, str], generated_bit: int):
     """Testing bit generation"""
-    assert a51.generate_bit(**xyz) == bit
+    assert a51.generate_bit(**registers_given) == generated_bit
 
 
-@pytest.mark.parametrize("xyz, keystream", zip(given_registers, keystreams))
-def test_generate_keystream(xyz, keystream):
-    """Testing keystream generation"""
-    plaintext = "Y"  # Only used to get length of the keystream
-    assert a51.generate_keystream(plaintext, **xyz) == keystream
-
-
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "xyz, keystream, ciphertext", zip(given_registers, keystreams, ciphers)
+    "registers_given, keystream",
+    get_cases("test_case_basic", "registers_given", "keystream"),
 )
-def test_encrypt_letter(xyz, keystream, ciphertext):
-    """Testing letter encryption"""
-    plaintext = "Y"
-    keystream = a51.generate_keystream(plaintext, **xyz)
+def test_keystream_generation(registers_given: dict[str, str], keystream: str):
+    """Testing keystream generation"""
+    plaintext = "U"  # Only used to get length of the keystream, 8 bits
+    assert a51.generate_keystream(plaintext, **registers_given) == keystream
+
+
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "keystream, ciphertext",
+    get_cases("test_case_basic", "keystream", "ciphertext"),
+)
+def test_encrypt_char(keystream: str, ciphertext: str):
+    """Testing encryption of a single character"""
+    plaintext = "U"  # Only used to get length of the keystream, 8 bits
     assert a51.encrypt(plaintext, keystream) == ciphertext
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "plaintext, secret, ciphertext", zip(phrases_plain, secrets, phrases_encrypted)
+    "secret, generated_registers",
+    get_cases("test_case_encryption", "secret", "generated_registers"),
 )
-def test_encrypt_text(plaintext, secret, ciphertext):
-    """Testing phrase encryption"""
+def test_populate_registers(secret: str, generated_registers: dict[str, str]):
+    """Testing generation of the registers"""
+    # pad with right 0 if necessary
+    gen_reg_x, gen_reg_y, gen_reg_z = a51.populate_registers(secret)
+    assert gen_reg_x == generated_registers["x"]
+    assert gen_reg_y == generated_registers["y"]
+    assert gen_reg_z == generated_registers["z"]
+
+
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, secret, ciphertext",
+    get_cases("test_case_encryption", "plaintext", "secret", "ciphertext"),
+)
+def test_encrypt_text(plaintext: str, secret: str, ciphertext: str):
+    """Testing encryption of a string"""
     x, y, z = a51.populate_registers(secret)
     keystream = a51.generate_keystream(plaintext, x, y, z)
     assert hex(int(a51.encrypt(plaintext, keystream), 2)) == ciphertext
@@ -148,15 +117,17 @@ def test_encrypt_text(plaintext, secret, ciphertext):
 
 def test_encrypt_file():
     """Testing file encryption"""
-    filename = "data/projects/a51/roster"
-    a51.encrypt_file("data/projects/a51/roster", "martin")
-    encrypted_file = Path(filename)
+    filename = "roster"
+    a51.encrypt_file(pathlib.Path(DATA_DIR / filename), "martin")
+    encrypted_file = pathlib.Path(DATA_DIR / filename)
     if encrypted_file.exists():
         assert (
-            sha256(open(f"{filename}.secret", "rb").read()).hexdigest()
+            sha256(
+                open(pathlib.Path(DATA_DIR / f"{filename}.secret"), "rb").read()
+            ).hexdigest()
             == "c6cffc32f7c20ecbbfd633796696359e05abcf09f1c8e96508162dd6f738752d"
         )
 
 
 if __name__ == "__main__":
-    pytest.main(["-v", "test_a51_cipher.py"])
+    pytest.main(["-v", __file__])
