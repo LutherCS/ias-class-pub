@@ -7,6 +7,7 @@ comment = "Public test cases for the project a51_cipher"
 registers_given = { x = "1010101010101010101", y = "1100110011001100110011", z = "11100001111000011110000" }
 registers_stepped = { x = "0101010101010101010", y = "0110011001100110011001", z = "11110000111100001111000" }
 generated_bit = 0
+plaintext = "U"
 keystream = "10000011"
 ciphertext = "11010110"
 
@@ -14,6 +15,7 @@ ciphertext = "11010110"
 registers_given = { x = "0101010101010101010", y = "0011001100110011001100", z = "00011100011100011100011" }
 registers_stepped = { x = "0010101010101010101", y = "0001100110011001100110", z = "00001110001110001110001" }
 generated_bit = 1
+plaintext = "U"
 keystream = "11100101"
 ciphertext = "10110000"
 
@@ -21,6 +23,7 @@ ciphertext = "10110000"
 registers_given = { x = "0101010101010101010", y = "0011001100110011001100", z = "00011100011100011100011" }
 registers_stepped = { x = "0010101010101010101", y = "0001100110011001100110", z = "00001110001110001110001" }
 generated_bit = 1
+plaintext = "U"
 keystream = "11100101"
 ciphertext = "10110000"
 
@@ -55,4 +58,4 @@ checksum = "427cd10796f40fd1fed55fb03e163f89ab93e680e9c0bf21f5b8587c2ae1a1c3"
 [[test_case_file_encryption]]
 filename = "preamble"
 secret = "constitution"
-checksum = "d944856097ef532db09b319419a374bdeeace2fb9381f58afb4cf047a20e505a"
+checksum = "59408b45d567d1506a799206fd484756b7c997265c02317237f9f2114ac897bf"
