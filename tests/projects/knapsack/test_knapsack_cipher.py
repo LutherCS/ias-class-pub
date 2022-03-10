@@ -1,136 +1,156 @@
 #!/usr/bin/env python3
 """
-Testing the Merkle–Hellman Knapsack cipher
-@author: Roman Yasinovskyy
+Merkle-Hellman Knapsack cipher testing
+
+@authors: Roman Yasinovskyy
+@version: 2022.3
 """
 
+import importlib
 import pathlib
+import sys
+from typing import Generator
+
+# from hashlib import sha256
+
 import pytest
-from src.projects.knapsack import knapsack_cipher as knapsack
+import toml
+
+try:
+    importlib.util.find_spec(".".join(pathlib.Path(__file__).parts[-3:-1]), "src")
+except ModuleNotFoundError:
+    sys.path.append(f"{pathlib.Path(__file__).parents[3]}/")
+finally:
+    from src.projects.knapsack import knapsack_cipher as knapsack
 
 
-siks = (
-    (171, 196, 457, 1191, 2410),  # Merkle-Hellman paper
-    (2, 3, 7, 14, 30, 57, 120, 251),  # Stamp's book
-    (2, 3, 6, 13, 27, 52),  # Stamp's site
-    (2, 7, 11, 21, 42, 89, 180, 354),  # Wikipedia
-)
-ns = (8443, 491, 105, 881)
-ms = (2550, 41, 31, 588)
-invs = (3950, 12, 61, 442)
-gks = (
-    (5457, 1663, 216, 6013, 7439),
-    (82, 123, 287, 83, 248, 373, 10, 471),
-    (62, 93, 81, 88, 102, 37),
-    (295, 592, 301, 14, 28, 353, 120, 236),
-)
-plaintexts = ("\x0b", "\x96", "5", "a")
-ciphertexts = ([15115], [548], [280], [1129])
+DATA_DIR = pathlib.Path("data/projects/knapsack/")
+TIME_LIMIT = 2
+
+
+def get_cases(category: str, *attribs: str) -> Generator:
+    """Get test cases from the TOML file"""
+    with open(pathlib.Path(__file__).with_suffix(".toml"), encoding="utf-8") as file:
+        all_cases = toml.load(file)
+        for case in all_cases[category]:
+            yield tuple(case.get(a) for a in attribs)
 
 
 def test_generate_sik_default():
     """Testing generate_sik function with default block size"""
     sik = knapsack.generate_sik()
-    for i in range(len(sik)):
-        assert sik[i] > sum(sik[:i])
+    for idx, item in enumerate(sik):
+        assert item > sum(sik[:idx])
 
 
-@pytest.mark.parametrize("block_size", [4, 8, 32, 64])
+@pytest.mark.parametrize("block_size", [8, 32, 64, 128])
 def test_generate_sik(block_size):
     """Testing generate_sik function with the specified block size"""
     sik = knapsack.generate_sik(block_size)
     assert len(sik) == block_size
-    for i in range(len(sik)):
-        assert sik[i] > sum(sik[:i])
+    for idx, item in enumerate(sik):
+        assert item > sum(sik[:idx])
 
 
-@pytest.mark.parametrize("sik, n", zip(siks, (4426, 485, 104, 707)))
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "sik, n",
+    get_cases("test_case_basic", "sik", "default_n"),
+)
 def test_calculate_n(sik, n):
     """Testing calculate_n function"""
     assert knapsack.calculate_n(sik) == n
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "sik, n, m", zip(siks, (4426, 485, 104, 707), (4425, 484, 103, 706)),
+    "n, m",
+    get_cases("test_case_basic", "default_n", "default_m"),
 )
-def test_calculate_m(sik, n, m):
+def test_calculate_m(n, m):
     """Testing calculate_m function"""
-    assert knapsack.calculate_m(sik, n) == m
+    assert knapsack.calculate_m(n) == m
 
 
-@pytest.mark.parametrize("sik, inverse", zip(siks, (4425, 484, 103, 706)))
-def test_calculate_inverse_default(sik, inverse):
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "sik, i",
+    get_cases("test_case_basic", "sik", "default_i"),
+)
+def test_calculate_inverse_default(sik, i):
     """Testing calculate_inverse function with default m and n"""
-    assert knapsack.calculate_inverse(sik) == inverse
+    assert knapsack.calculate_inverse(sik) == i
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "sik, n, m, inverse", zip(siks, ns, ms, invs),
+    "sik, n, m, i",
+    get_cases("test_case_basic", "sik", "n", "m", "i"),
 )
-def test_calculate_inverse(sik, n, m, inverse):
+def test_calculate_inverse(sik, n, m, i):
     """Testing calculate_inverse function with the specified n and m"""
-    assert knapsack.calculate_inverse(sik, n, m) == inverse
+    assert knapsack.calculate_inverse(sik, n, m) == i
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "sik, gk",
-    zip(
-        siks,
-        (
-            (4255, 4230, 3969, 3235, 2016),
-            (483, 482, 478, 471, 455, 428, 365, 234),
-            (102, 101, 98, 91, 77, 52),
-            (705, 700, 696, 686, 665, 618, 527, 353),
-        ),
-    ),
+    "sik, genk",
+    get_cases("test_case_basic", "sik", "default_genk"),
 )
-def test_generate_gk_default(sik, gk):
+def test_generate_gk_default(sik, genk):
     """Testing generate_gk function with default parameters"""
-    assert knapsack.generate_gk(sik) == gk
+    assert knapsack.generate_gk(sik) == tuple(genk)
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "sik, n, m, gk", zip(siks, ns, ms, gks),
+    "sik, n, m, genk",
+    get_cases("test_case_basic", "sik", "n", "m", "genk"),
 )
-def test_generate_gk(sik, n, m, gk):
+def test_generate_gk(sik, n, m, genk):
     """Testing generate_gk function"""
-    assert knapsack.generate_gk(sik, n, m) == gk
+    assert knapsack.generate_gk(sik, n, m) == tuple(genk)
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
-    "plaintext, gk, ciphertext", zip(plaintexts, gks, ciphertexts)
+    "plaintext, genk, ciphertext",
+    get_cases("test_case_basic", "plaintext", "genk", "ciphertext"),
 )
-def test_encrypt(plaintext, gk, ciphertext):
+def test_encrypt(plaintext, genk, ciphertext):
     """Testing encrypt function"""
-    assert knapsack.encrypt(plaintext, gk) == ciphertext
+    assert knapsack.encrypt(plaintext, genk) == ciphertext
 
 
+@pytest.mark.timeout(TIME_LIMIT)
 @pytest.mark.parametrize(
     "ciphertext, sik, n, m, plaintext",
-    zip(ciphertexts, siks, ns, ms, plaintexts),
+    get_cases("test_case_basic", "ciphertext", "sik", "n", "m", "plaintext"),
 )
 def test_decrypt(ciphertext, sik, n, m, plaintext):
     """Testing decrypt function"""
     assert knapsack.decrypt(ciphertext, sik, n, m) == plaintext
 
 
-@pytest.mark.parametrize("plaintext, ciphertext", zip(["octoduck", "infosec"], [10937952106318749431957, 9680004055205841196375]))
-def test_encrypt_word(plaintext, ciphertext):
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "plaintext, genk, ciphertext, block_size",
+    get_cases("test_case_word", "plaintext", "genk", "ciphertext", "block_size"),
+)
+def test_encrypt_word(plaintext, genk, ciphertext, block_size):
     """Testing complex case of encryption"""
-    with open(pathlib.Path("data", "projects", "knapsack", "knapsack.public"), "r") as f:
-        gk = list(map(int, f.readline().strip().split(", ")))
-    assert knapsack.encrypt(plaintext, gk) == [ciphertext]
+    assert knapsack.encrypt(plaintext, genk, block_size) == ciphertext
 
 
-@pytest.mark.timeout(2)
-def test_decrypt_word():
+@pytest.mark.timeout(TIME_LIMIT)
+@pytest.mark.parametrize(
+    "ciphertext, sik, n, m, plaintext",
+    get_cases("test_case_basic", "ciphertext", "sik", "n", "m", "plaintext"),
+)
+def test_decrypt_word(ciphertext, sik, n, m, plaintext):
     """Testing complex case of decryption"""
-    with open(pathlib.Path("data", "projects", "knapsack", "knapsack.private"), "r") as f:
-        sik = list(map(int, f.readline().strip().split(", ")))
-        n = int(f.readline().strip())
-        m = int(f.readline().strip())
-    assert knapsack.decrypt([10937952106318749431957], sik, n, m) == "octoduck"
+    assert knapsack.decrypt(ciphertext, sik, n, m) == plaintext
 
 
 if __name__ == "__main__":
-    pytest.main(["-v", "test_knapsack_cipher.py"])
+    pytest.main(["-v", __file__])
