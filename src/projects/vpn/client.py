@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-# encoding: UTF-8
+"""
+Custom VPN. Client
+
+@authors: 
+@version: 2022.4
+"""
 
 from socket import socket, gethostname, AF_INET, SOCK_STREAM
-from typing import Tuple, Dict
 
 HOST = gethostname()
 PORT = 4600
@@ -10,20 +14,20 @@ PORT = 4600
 
 def generate_cipher_proposal(supported: dict) -> str:
     """Generate a cipher proposal message
-    
+
     :param supported: cryptosystems supported by the client
     :return: proposal as a string
     """
-    raise NotImplementedError
+    ...
 
 
-def parse_cipher_selection(msg: str) -> Tuple[str, int]:
+def parse_cipher_selection(msg: str) -> tuple[str, int]:
     """Parse server's response
-    
+
     :param msg: server's message with the selected cryptosystem
     :return: (cipher_name, key_size) tuple extracted from the message
     """
-    raise NotImplementedError
+    ...
 
 
 def generate_dhm_request(public_key: int) -> str:
@@ -32,16 +36,16 @@ def generate_dhm_request(public_key: int) -> str:
     :param: client's DHM public key
     :return: string according to the specification
     """
-    raise NotImplementedError
+    ...
 
 
 def parse_dhm_response(msg: str) -> int:
     """Parse server's DHM key exchange request
-    
+
     :param msg: server's DHMKE message
     :return: number in the server's message
     """
-    raise NotImplementedError
+    ...
 
 
 def get_key_and_iv(
@@ -60,19 +64,19 @@ def get_key_and_iv(
     `iv` is the *last* `ivlen` bytes of the shared key
     Both key and IV must be returned as bytes
     """
-    raise NotImplementedError
+    ...
 
 
 def add_padding(message: str) -> str:
     """Add padding (0x0) to the message to make its length a multiple of 16
-    
+
     :param message: message to pad
     :return: padded message
     """
-    raise NotImplementedError
+    ...
 
 
-def encrypt_message(message: str, crypto: object, hashing: object) -> Tuple[bytes, str]:
+def encrypt_message(message: str, crypto: object, hashing: object) -> tuple[bytes, str]:
     """
     Encrypt the message
 
@@ -85,7 +89,7 @@ def encrypt_message(message: str, crypto: object, hashing: object) -> Tuple[byte
     2. Encrypt using cipher `crypto`
     3. Compute HMAC using `hashing`
     """
-    raise NotImplementedError
+    ...
 
 
 def main():

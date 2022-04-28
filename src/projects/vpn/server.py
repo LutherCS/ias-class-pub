@@ -1,56 +1,65 @@
 #!/usr/bin/env python3
-# encoding: UTF-8
+"""
+Custom VPN. Server
+
+@authors: 
+@version: 2022.4
+"""
+
 
 from socket import socket, gethostname
 from socket import AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR
-from typing import Tuple, Dict
 
 HOST = gethostname()
 PORT = 4600
 
 
-def parse_proposal(msg: str) -> Dict[str, list]:
+def parse_proposal(msg: str) -> dict[str, list]:
     """Parse client's proposal
-    
+
     :param msg: message from the client with a proposal (ciphers and key sizes)
     :return: the ciphers and keys as a dictionary
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
-def select_cipher(supported: dict, proposed: dict) -> Tuple[str, int]:
+def select_cipher(supported: dict, proposed: dict) -> tuple[str, int]:
     """Select a cipher to use
-    
+
     :param supported: dictionary of ciphers supported by the server
     :param proposed: dictionary of ciphers proposed by the client
     :return: tuple (cipher, key_size) of the common cipher where key_size is the longest supported by both
     :raise: ValueError if there is no (cipher, key_size) combination that both client and server support
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def generate_cipher_response(cipher: str, key_size: int) -> str:
     """Generate a response message
-    
+
     :param cipher: chosen cipher
     :param key_size: chosen key size
     :return: (cipher, key_size) selection as a string
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def parse_dhm_request(msg: str) -> int:
     """Parse client's DHM key exchange request
-    
+
     :param msg: client's DHMKE initial message
     :return: number in the client's message
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def get_key_and_iv(
     shared_key: str, cipher_name: str, key_size: int
-) -> Tuple[object, bytes, bytes]:
+) -> tuple[object, bytes, bytes]:
     """Get key and IV from the generated shared secret key
 
     :param shared_key: shared key as computed by `diffiehellman`
@@ -64,37 +73,41 @@ def get_key_and_iv(
     `iv` is the *last* `ivlen` bytes of the shared key
     Both key and IV must be returned as bytes
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def generate_dhm_response(public_key: int) -> str:
     """Generate DHM key exchange response
-    
+
     :param public_key: public portion of the DHMKE
     :return: string according to the specification
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
-def read_message(msg_cipher: bytes, crypto: object) -> Tuple[str, str]:
+def read_message(msg_cipher: bytes, crypto: object) -> tuple[str, str]:
     """Read the incoming encrypted message
-    
+
     :param msg_cipher: encrypted message from the socket
     :crypto: chosen cipher, must be initialized in the `main`
     :return: (plaintext, hmac) tuple
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def validate_hmac(msg_cipher: bytes, hmac_in: str, hashing: object) -> bool:
     """Validate HMAC
-    
+
     :param msg_cipher: encrypted message from the socket
     :param hmac_in: HMAC received from the client
     :param hashing: hashing object, must be initialized in the `main`
     :raise: ValueError is HMAC is invalid
     """
-    raise NotImplementedError
+    # TODO: Implement this function
+    ...
 
 
 def main():
@@ -113,15 +126,15 @@ def main():
     print("Negotiating the cipher")
     cipher_name = "CS"
     key_size = 460
-    # Follow the description
+    # TODO: Follow the description
     print(f"We are going to use {cipher_name}{key_size}")
 
     print("Negotiating the key")
-    # Follow the description
+    # TODO: Follow the description
     print("The key has been established")
 
     print("Initializing cryptosystem")
-    # Follow the description
+    # TODO: Follow the description
     print("All systems ready")
 
     while True:
