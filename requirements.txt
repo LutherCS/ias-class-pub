@@ -2,7 +2,7 @@ attrs==21.4.0
 black==22.1.0
 cffi==1.15.0
 click==8.0.3
-cryptography==41.0.3
+cryptography==41.0.6
 diffiehellman==0.13.3
 flake8==4.0.1
 Flask==2.3.2
