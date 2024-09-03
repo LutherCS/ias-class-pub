@@ -28,4 +28,4 @@ pytest-timeout==2.1.0
 python-dotenv==0.19.2
 toml==0.10.2
 tomli==2.0.0
-Werkzeug==3.0.1
+Werkzeug==3.0.3
