@@ -1,4 +1,1 @@
-# ias-class-pub
-
-Information Assurance and Security (CS460)
-
+# Information Assurance and Security (CS460)
