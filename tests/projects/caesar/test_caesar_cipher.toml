@@ -1,0 +1,39 @@
+[meta]
+authors = "Roman Yasinovskyy"
+comment = "Public test cases for the project caesar cipher"
+version = "2025.2"
+
+[[test_case]]
+ciphertext = "KHOOR"
+obfuscated = "KHOOR"
+plaintext  = "hello"
+shift      = 3
+shifted    = "khoor"
+
+[[test_case]]
+ciphertext = "ZRUOG"
+obfuscated = "ZRUOG"
+plaintext  = "world"
+shift      = 3
+shifted    = "zruog"
+
+[[test_case]]
+ciphertext = "URYYB"
+obfuscated = "URYYB"
+plaintext  = "hello"
+shift      = 13
+shifted    = "uryyb"
+
+[[test_case]]
+ciphertext = "JBEYQ"
+obfuscated = "JBEYQ"
+plaintext  = "world"
+shift      = 13
+shifted    = "jbeyq"
+
+[[test_case]]
+ciphertext = "KHOOR, ZRUOG!"
+obfuscated = "KHOORZRUOG"
+plaintext  = "hello, world!"
+shift      = 3
+shifted    = "khoor, zruog!"
