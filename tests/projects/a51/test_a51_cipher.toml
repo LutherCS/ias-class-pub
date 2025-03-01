@@ -1,0 +1,170 @@
+[meta]
+authors = "Roman Yasinovskyy"
+comment = "Public test cases for the project a51_cipher"
+version = "2025.3"
+
+[[test_case_basic]]
+ciphertext    = [0b11010110]
+generated_bit = 0
+keystream     = [1, 0, 0, 0, 0, 0, 1, 1]
+plaintext     = "U"
+[test_case_basic.register_given]
+x = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+y = [1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
+z = [1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0]
+[test_case_basic.register_stepped]
+x = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+y = [0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1]
+z = [1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0]
+
+[[test_case_basic]]
+ciphertext    = [0b10110000]
+generated_bit = 1
+keystream     = [1, 1, 1, 0, 0, 1, 0, 1]
+plaintext     = "U"
+[test_case_basic.register_given]
+x = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+y = [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0]
+z = [0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1]
+[test_case_basic.register_stepped]
+x = [0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+y = [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0]
+z = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]
+
+[[test_case_basic]]
+ciphertext    = [0b10110000]
+generated_bit = 1
+keystream     = [1, 1, 1, 0, 0, 1, 0, 1]
+plaintext     = "U"
+[test_case_basic.register_given]
+x = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+y = [0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0]
+z = [0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1]
+[test_case_basic.register_stepped]
+x = [0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+y = [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0]
+z = [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1]
+
+[[test_case_general]]
+ciphertext = [0xea, 0xa9, 0xd7, 0x19, 0x3f]
+plaintext  = "Norse"
+secret     = "Panda"
+[test_case_general.generated_register]
+x = [0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1]
+y = [0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0]
+z = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+[[test_case_general]]
+ciphertext = [0xa9, 0xf2, 0x6f, 0x61, 0x16, 0xb8, 0x79, 0x27, 0xb6, 0x93, 0xe3, 0x11, 0x52, 0xe7]
+plaintext  = "Luther College"
+secret     = "infosec"
+[test_case_general.generated_register]
+x = [0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1]
+y = [0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0]
+z = [1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+
+[[test_case_general]]
+ciphertext = [0x5c, 0x2c, 0xb4, 0x67, 0x63, 0xde, 0xea, 0xdd, 0xb3, 0x18]
+plaintext  = "Yakety Yak"
+secret     = "octoduck"
+[test_case_general.generated_register]
+x = [0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1]
+y = [1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0]
+z = [1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1]
+
+[[test_case_general]]
+ciphertext = [
+    0xc8,
+    0xb5,
+    0x91,
+    0xd8,
+    0xc6,
+    0x6b,
+    0xaf,
+    0x33,
+    0xa5,
+    0xa3,
+    0x24,
+    0xcc,
+    0x76,
+    0x65,
+    0xd3,
+    0x10,
+    0xbf,
+    0x3b,
+    0x95,
+]
+plaintext = "Bippity bippity bop"
+secret = "security"
+[test_case_general.generated_register]
+x = [0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1]
+y = [0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0]
+z = [1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1]
+
+[[test_case_file_encryption]]
+checksum_cipher = "c91102d41139fc48a2fc487292595c9d3de6f8fe1cab9a26e45598170b265c1d"
+checksum_plain  = "81063f974209578a41867454100235a4acc92c318c962207d4745c2b86821e42"
+filename        = "simple"
+secret          = "infosec"
+
+[[test_case_file_encryption]]
+checksum_cipher = "372284749fb9f831c00f0a97ad8cc5c0c284c7b4a0d4f71a10b4d0777858d6d8"
+checksum_plain  = "d08f6a2ad1f754dc7069973a00f40e6be23e77e5ae521d1a6df18ed8ebd65ef1"
+filename        = "preamble"
+secret          = "constitution"
+
+[[test_case_file_encryption]]
+checksum_cipher = "2d13d31f4bc254ca51529b1e385349cd619eada6702819642a8483598d46895c"
+checksum_plain  = "0c614b6247fd0215d9d8f4b0d9d63a9ac3dbf104e5d6b86d5b93931a86af5299"
+filename        = "roster"
+secret          = "martin"
+
+[[test_case_file_decryption]]
+checksum_plain = "5f2127487df260e5684eacf224735f859e40f4b53afad62dcf40e5728f22d80f"
+filename       = "secret1"
+secret         = "freedom"
+
+[[test_case_file_decryption]]
+checksum_plain = "cc1d4de40623f0edb3574b068eb6d9cf2363012ae7ee8c565d856c6a86102375"
+filename       = "secret2"
+secret         = "militia"
+
+[[test_case_file_decryption]]
+checksum_plain = "b58367118e4edf5668ea33d7ac475be2ab6fe252f90b14455e71eae4f3b5a694"
+filename       = "secret3"
+secret         = "soldier"
+
+[[test_case_file_decryption]]
+checksum_plain = "acb43cc22613c9c8240cc9c7958655e44ca9bb67519aeed27f2f0d50cf5ec49d"
+filename       = "secret4"
+secret         = "seizure"
+
+[[test_case_file_decryption]]
+checksum_plain = "74b81c8566cf57025a6fe3c8eefba40a2a93350b6c5128322423c051bd25a362"
+filename       = "secret5"
+secret         = "jeopardy"
+
+[[test_case_file_decryption]]
+checksum_plain = "d98fc92096855b46fc1ca1c3c94f9d5c4f4857385a470cc176ae8387bbd72821"
+filename       = "secret6"
+secret         = "counsel"
+
+[[test_case_file_decryption]]
+checksum_plain = "a0fc975c86ffcb70776731d2cd2f75aefe39d8ea32d18abfb9b4933e7758b612"
+filename       = "secret7"
+secret         = "twenty$"
+
+[[test_case_file_decryption]]
+checksum_plain = "16c9db7db23bf62f778a37561877d5f6f6161cb47b782011bdbcbf8cca1786f4"
+filename       = "secret8"
+secret         = "unusual"
+
+[[test_case_file_decryption]]
+checksum_plain = "4b65cd9bd56fb0a4857aac71d88c532ef8caa46f158727ab69316ba34908ce0d"
+filename       = "secret9"
+secret         = "enumeration"
+
+[[test_case_file_decryption]]
+checksum_plain = "023e4464d813f17326cb8f103ee30ff6c6c06bbe690c4a4b930de8d55a461921"
+filename       = "secret10"
+secret         = "federalism"
