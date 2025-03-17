@@ -1,0 +1,102 @@
+[meta]
+authors = "Roman Yasinovskyy"
+comment = "Public test cases for the project knapsack"
+version = "2025.3"
+
+[[test_case_basic]]
+# Merkle-Hellman paper
+ciphertext   = 15115
+default_genk = [4255, 4230, 3969, 3235, 2016]
+default_i    = 4425
+default_m    = 4425
+default_n    = 4426
+genk         = [5457, 1663, 216, 6013, 7439]
+i            = 3950
+m            = 2550
+n            = 8443
+plaintext    = "\u000b"
+sik          = [171, 196, 457, 1191, 2410]
+
+[[test_case_basic]]
+# Stamp's book
+ciphertext   = 548
+default_genk = [483, 482, 478, 471, 455, 428, 365, 234]
+default_i    = 484
+default_m    = 484
+default_n    = 485
+genk         = [82, 123, 287, 83, 248, 373, 10, 471]
+i            = 12
+m            = 41
+n            = 491
+plaintext    = "\u0096"
+sik          = [2, 3, 7, 14, 30, 57, 120, 251]
+
+[[test_case_basic]]
+# Stamp's site
+ciphertext   = 280
+default_genk = [102, 101, 98, 91, 77, 52]
+default_i    = 103
+default_m    = 103
+default_n    = 104
+genk         = [62, 93, 81, 88, 102, 37]
+i            = 61
+m            = 31
+n            = 105
+plaintext    = "5"
+sik          = [2, 3, 6, 13, 27, 52]
+
+[[test_case_basic]]
+# Wikipedia
+ciphertext   = 1129
+default_genk = [705, 700, 696, 686, 665, 618, 527, 353]
+default_i    = 706
+default_m    = 706
+default_n    = 707
+genk         = [295, 592, 301, 14, 28, 353, 120, 236]
+i            = 442
+m            = 588
+n            = 881
+plaintext    = "a"
+sik          = [2, 7, 11, 21, 42, 89, 180, 354]
+
+[[test_case_word]]
+ciphertext   = 13468765417334412562501074599688748978906323724719560659169252189467346
+plaintext    = "infosec"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
+
+[[test_case_word]]
+ciphertext   = 13802185165158288844352447517035045816670108471059751645485445670062024
+plaintext    = "infosec\u0000"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
+
+[[test_case_word]]
+ciphertext   = 15292318154972630549210638782219647378713873938158108111310386988721137
+plaintext    = "Luther1861"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
+
+[[test_case_word]]
+ciphertext   = 15598391423042065358841345475272715807900925428360514079924572957319127
+plaintext    = "octoduck"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
+
+[[test_case_word]]
+ciphertext   = 20640851707794097211243368999634160734525396047139401633159260226427872
+plaintext    = "hello, world"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
+
+[[test_case_word]]
+ciphertext   = 23012166336081304560206603856967147299369899590812557368706840616989731
+plaintext    = "Luther College"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
+
+[[test_case_word]]
+ciphertext   = 24586585505416935591995421185837687180065988029427589712843118249210883
+plaintext    = "Soli Deo Gloria\u0000"
+private_file = "knapsack.private"
+public_file  = "knapsack.public"
