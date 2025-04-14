@@ -1,0 +1,155 @@
+[meta]
+authors = "Roman Yasinovskyy"
+comment = "Test cases for the project passwords"
+version = "2025.4"
+
+[[test_case]]
+password = ""
+username = "birdo67"
+[[test_case]]
+password = ""
+username = "bonedr48"
+[[test_case]]
+password = ""
+username = "booki52"
+[[test_case]]
+password = ""
+username = "bowsdr51"
+[[test_case]]
+password = ""
+username = "bowser00"
+[[test_case]]
+password = ""
+username = "boyin98"
+[[test_case]]
+password = ""
+username = "daisba71"
+[[test_case]]
+password = ""
+username = "daisy72"
+[[test_case]]
+password = ""
+username = "femavi69"
+[[test_case]]
+password = ""
+username = "girlin27"
+[[test_case]]
+password = ""
+username = "guysh66"
+[[test_case]]
+password = ""
+username = "iggy15"
+[[test_case]]
+password = ""
+username = "isabel48"
+[[test_case]]
+password = ""
+username = "jrbo47"
+[[test_case]]
+password = ""
+username = "kamek12"
+[[test_case]]
+password = ""
+username = "kongdi29"
+[[test_case]]
+password = ""
+username = "kongdo08"
+[[test_case]]
+password = ""
+username = "kongfu12"
+[[test_case]]
+password = ""
+username = "lakitu78"
+[[test_case]]
+password = ""
+username = "larry03"
+[[test_case]]
+password = ""
+username = "lemmy70"
+[[test_case]]
+password = ""
+username = "link65"
+[[test_case]]
+password = ""
+username = "ludwig08"
+[[test_case]]
+password = ""
+username = "luigba10"
+[[test_case]]
+password = ""
+username = "luigi99"
+[[test_case]]
+password = ""
+username = "malevi25"
+[[test_case]]
+password = ""
+username = "mariba82"
+[[test_case]]
+password = ""
+username = "marigo05"
+[[test_case]]
+password = ""
+username = "mario24"
+[[test_case]]
+password = ""
+username = "marita03"
+[[test_case]]
+password = ""
+username = "mii98"
+[[test_case]]
+password = ""
+username = "morton24"
+[[test_case]]
+password = ""
+username = "paulin03"
+[[test_case]]
+password = ""
+username = "peacba61"
+[[test_case]]
+password = ""
+username = "peacca48"
+[[test_case]]
+password = ""
+username = "peach90"
+[[test_case]]
+password = ""
+username = "peache29"
+[[test_case]]
+password = ""
+username = "pink50"
+[[test_case]]
+password = ""
+username = "pirape81"
+[[test_case]]
+password = ""
+username = "rosaba22"
+[[test_case]]
+password = ""
+username = "rosali58"
+[[test_case]]
+password = ""
+username = "roy45"
+[[test_case]]
+password = ""
+username = "toad76"
+[[test_case]]
+password = ""
+username = "toadet14"
+[[test_case]]
+password = ""
+username = "trooko06"
+[[test_case]]
+password = ""
+username = "waluig26"
+[[test_case]]
+password = ""
+username = "wario15"
+[[test_case]]
+password = ""
+username = "wendy31"
+[[test_case]]
+password = ""
+username = "wiggle77"
+[[test_case]]
+password = ""
+username = "yoshi04"
