@@ -1,0 +1,7 @@
+[[supported_cipher]]
+keys = [128, 256]
+name = "AES"
+
+[[supported_cipher]]
+keys = [192]
+name = "DES3"

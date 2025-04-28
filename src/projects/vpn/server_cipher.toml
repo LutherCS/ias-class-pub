@@ -1,0 +1,11 @@
+[[supported_cipher]]
+keys = [128, 192, 256]
+name = "AES"
+
+[[supported_cipher]]
+keys = [112, 224, 448]
+name = "Blowfish"
+
+[[supported_cipher]]
+keys = [192]
+name = "DES3"
